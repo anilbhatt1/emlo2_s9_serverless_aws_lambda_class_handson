@@ -1,0 +1,26 @@
+# For role & docker image populated file, please refer Notion s9 -> 
+# How to create AWS serverless using AWS lambda and serverless framework -> 
+# Once push to ECR is successfull, update serverless.yml with URI of the ECR image pushed & 
+# IAM role we will use
+service: serverless-mnist
+ 
+provider:
+  name: aws #cloud provider
+  region: us-east-2 #region (ohio)
+  memorySize: 10240 #memory usage
+  timeout: 300 
+  iam:
+    role: <give the aws iam role you intend to use here>
+  iamRoleStatements:
+  - Effect: Allow
+    Action: "*"
+    Resource: "*"  
+ 
+functions:
+  mnist:
+    image: <give the ecr docker image uri here>
+    events:
+      - http:
+          path: inference 
+          method: post 
+          cors: true
